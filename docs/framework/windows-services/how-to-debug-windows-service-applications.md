@@ -76,7 +76,7 @@ A service must be run from within the context of the Services Control Manager ra
 ## Debugging Tips for Windows Services  
  Attaching to the service's process allows you to debug most, but not all, the code for that service. For example, because the service has already been started, you cannot debug the code in the service's <xref:System.ServiceProcess.ServiceBase.OnStart%2A> method or the code in the `Main` method that is used to load the service this way. One way to work around this limitation is to create a temporary second service in your service application that exists only to aid in debugging. You can install both services, and then start this dummy service to load the service process. Once the temporary service has started the process, you can use the **Debug** menu in Visual Studio to attach to the service process.  
   
- Try adding calls to the <xref:System.Threading.Thread.Sleep%2A> method to delay action until you’re able to attach to the process.  
+ Try adding calls to the <xref:System.Threading.Thread.Sleep%2A> method to delay action until you’re able to attach to the process. For instance, add Thread.Sleep(7000) -7 seconds- to the service's OnStart event method, which will block the application's main thread, and set a breakpoint there. Compile it, start the service (manually, via the Management Console) and attach/reattach the debugger to the service's process. The debugger will resume the start of the process from the breakpoint (in the OnStart method).
   
  Try changing the program to a regular console application. To do this, rewrite the `Main` method as follows so it can run both as a Windows Service and as a console application, depending on how it's started.  
   
